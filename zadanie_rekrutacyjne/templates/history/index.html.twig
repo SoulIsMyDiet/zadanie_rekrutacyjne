@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HIstory</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>id</th>
+        <th>firstIn</th>
+        <th>secondIN</th>
+    </tr>
+    {% for item in history %}
+    <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.firstIn }}</td>
+        <td>{{ item.secondIn }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

@@ -60,4 +60,19 @@ class ExchangeController extends AbstractController
             return new JsonResponse(['message' => 'Brak wymaganych parametrów.'], 400);
         }
     }
+
+    /**
+     * @Route("/history", name="history", methods={"GET", "POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getHistory(Request $request)
+    {
+        $em = $this->doctrine->getManager();
+        $history = $em->getRepository(History::class)->findAll();
+
+        return $this->render('history/index.html.twig', [
+            'history' => $history
+        ]);
+    }
 }
