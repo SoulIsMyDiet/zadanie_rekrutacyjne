@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\History;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,15 @@ class ExchangeController extends AbstractController
      * @var ManagerRegistry
      */
     private $doctrine;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
-    public function __construct(ManagerRegistry $doctrine) {
+    public function __construct(ManagerRegistry $doctrine, PaginatorInterface $paginator) {
 
         $this->doctrine = $doctrine;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -69,10 +75,17 @@ class ExchangeController extends AbstractController
     public function getHistory(Request $request)
     {
         $em = $this->doctrine->getManager();
-        $history = $em->getRepository(History::class)->findAll();
+        $historyQuery = $em->getRepository(History::class)->createQueryBuilder('h')->getQuery();
+
+        $pagination = $this->paginator->paginate(
+            $historyQuery,
+            $request->query->getInt('page', 1), /*page number*/
+            2 /*limit per page*/
+        );
 
         return $this->render('history/index.html.twig', [
-            'history' => $history
+            'pagination' => $pagination
         ]);
+
     }
 }

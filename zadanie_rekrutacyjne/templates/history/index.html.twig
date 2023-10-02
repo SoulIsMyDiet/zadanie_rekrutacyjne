@@ -6,11 +6,11 @@
 <body>
 <table>
     <tr>
-        <th>id</th>
-        <th>firstIn</th>
-        <th>secondIN</th>
+        <th>{{ knp_pagination_sortable(pagination, 'Id', 'h.id') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'First In', 'h.firstIn') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'Second In', 'h.secondIn') }}</th>
     </tr>
-    {% for item in history %}
+    {% for item in pagination %}
     <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.firstIn }}</td>
